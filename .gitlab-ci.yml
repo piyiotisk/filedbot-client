@@ -1,0 +1,29 @@
+image: node:alpine
+
+# Cache node modules - speeds up future builds
+cache:
+  paths:
+  - node_modules
+
+stages:
+  - install
+  - test
+
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    untracked: true
+
+test:
+  stage: test
+  dependencies:
+    - install
+  script:
+    - npm ci
+    - npm run build
+    - npm test
+  artifacts:
+    untracked: true
+    
